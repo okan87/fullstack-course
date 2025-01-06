@@ -65,6 +65,14 @@ module.exports.BlogPost = {
       result: data,
     });
   },
+  listByCategory: async (req, res) => {
+    const data = await BlogPost.find({ blogCategoryId: req.params.categoryId }).populate("blogCategoryId");
+    res.status(200).send({
+      error: false,
+      count: data.length,
+      result: data
+    });
+  },
   create: async (req, res) => {
     const data = await BlogPost.create(req.body);
     res.status(201).send({
