@@ -15,6 +15,19 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8000;
 
 /* ------------------------------------------------------- */
+//*SessionCookies: 
+// https://www.npmjs.com/package/cookie-session
+// $ npm i cookie-session
+const session = require("cookie-session");
+app.use(
+  session({
+    secret: process.env.KEY || 'secret_key_for_cookies',
+    // name: 'cookie' //default: req.session
+    // maxAge: 24 * 60 * 60 * 1000, //24 hours
+
+  }))
+
+/* ------------------------------------------------------- */
 
 app.use(express.json());
 
@@ -33,7 +46,7 @@ app.use("/blog", require("./src/routes/blogRoute"));
 /* ------------------------------------------------------- */
 
 // synchoronize:
-require("./src/sync")();
+// require("./src/sync")();
 // errorHandler:
 app.use(require("./src/errorHandler"));
 
