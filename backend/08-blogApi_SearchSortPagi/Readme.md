@@ -1,41 +1,41 @@
-Tabii, dosyaların görevlerini özetleyebilirim. İşte projenizdeki bazı dosyaların görevleri:
+Tabii, dosyalarin görevlerini özetleyebilirim. İşte projenizdeki bazi dosyalarin görevleri:
 
 1. **index.js**:
-   - Uygulamanın ana giriş noktasıdır.
-   - Express.js sunucusunu başlatır.
-   - Ortak middleware'leri ve rotaları tanımlar.
+   - Uygulamanin ana giriş noktasidir.
+   - Express.js sunucusunu başlatir.
+   - Ortak middleware'leri ve rotalari tanimlar.
    - Çevresel değişkenleri yükler.
-   - Veritabanı bağlantısını başlatır.
-   - Hata işleyicilerini tanımlar.
+   - Veritabani bağlantisini başlatir.
+   - Hata işleyicilerini tanimlar.
 
 2. **blogController.js**:
-   - Blog ile ilgili iş mantığını içerir.
+   - Blog ile ilgili iş mantiğini içerir.
    - Blog oluşturma, güncelleme, silme ve listeleme işlemlerini gerçekleştirir.
-   - Arama, sıralama ve sayfalama işlemlerini yönetir.
+   - Arama, siralama ve sayfalama işlemlerini yönetir.
 
 3. **errorHandler.js**:
    - Uygulama genelinde hata işleme görevini üstlenir.
-   - Hataları yakalar ve uygun HTTP yanıtlarını gönderir.
-   - Yanıt başlıklarının zaten gönderilip gönderilmediğini kontrol eder.
+   - Hatalari yakalar ve uygun HTTP yanitlarini gönderir.
+   - Yanit başliklarinin zaten gönderilip gönderilmediğini kontrol eder.
 
 4. **sync.js**:
-   - Veritabanı senkronizasyon işlemlerini gerçekleştirir.
-   - Veritabanı tablolarını veya koleksiyonlarını oluşturur veya günceller.
+   - Veritabani senkronizasyon işlemlerini gerçekleştirir.
+   - Veritabani tablolarini veya koleksiyonlarini oluşturur veya günceller.
 
 5. **dbConnection.js**:
-   - Veritabanı bağlantısını yönetir.
-   - Mongoose kullanarak MongoDB veritabanına bağlanır.
+   - Veritabani bağlantisini yönetir.
+   - Mongoose kullanarak MongoDB veritabanina bağlanir.
 
 6. **userRoute.js**:
-   - Kullanıcılarla ilgili rotaları tanımlar.
-   - Kullanıcı oluşturma, güncelleme, silme ve listeleme işlemlerini yönlendirir.
+   - Kullanicilarla ilgili rotalari tanimlar.
+   - Kullanici oluşturma, güncelleme, silme ve listeleme işlemlerini yönlendirir.
 
 7. **blogRoute.js**:
-   - Bloglarla ilgili rotaları tanımlar.
+   - Bloglarla ilgili rotalari tanimlar.
    - Blog oluşturma, güncelleme, silme ve listeleme işlemlerini yönlendirir.
 
 8. **findsSearchSortPage.js**:
-   - Arama, sıralama ve sayfalama işlemlerini gerçekleştiren middleware.
-   - Gelen isteklerdeki arama, sıralama ve sayfalama parametrelerini işler.
+   - Arama, siralama ve sayfalama işlemlerini gerçekleştiren middleware.
+   - Gelen isteklerdeki arama, siralama ve sayfalama parametrelerini işler.
 
-Bu dosyalar, uygulamanızın farklı işlevlerini yerine getirmek için birlikte çalışır. Her dosya belirli bir sorumluluğa sahiptir ve bu sorumlulukları yerine getirir.
+Bu dosyalar, uygulamanizin farkli işlevlerini yerine getirmek için birlikte çalişir. Her dosya belirli bir sorumluluğa sahiptir ve bu sorumluluklari yerine getirir.
