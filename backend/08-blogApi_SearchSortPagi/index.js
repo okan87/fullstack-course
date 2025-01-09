@@ -32,6 +32,9 @@ app.use(express.json());
 // DB Connection:
 require("./src/dbConnection");
 
+// SearchSortPage:
+app.use(require("./src/middlewares/findsSearchSortPage"));
+
 // HomePage:
 app.all("/", (req, res) => {
   res.send("WELCOME TO BLOG APIIIIII");
