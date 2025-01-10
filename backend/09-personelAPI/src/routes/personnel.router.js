@@ -6,12 +6,7 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 
 const personnel = require('../controllers/personnel.controller')
-
-// URL: /personnels
-
-// Login/logout:
-router.post('/login', personnel.login)
-router.all('/logout', personnel.logout)
+//url: /personnels
 
 router.route('/')
     .get(personnel.list)
@@ -22,6 +17,7 @@ router.route('/:id')
     .put(personnel.update)
     .patch(personnel.update)
     .delete(personnel.delete)
+
 
 /* ------------------------------------------------------- */
 module.exports = router
