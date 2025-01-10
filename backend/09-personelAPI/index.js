@@ -38,6 +38,7 @@ app.all("/", (req, res) =>
 );
 // departments: 
 app.use("/departments", require("./src/routes/department.router"));
+app.use("/personnel", require("./src/routes/personnel.router"));
 /! ------------------------------------------------------- */;
 
 // continue from here...
@@ -52,4 +53,4 @@ app.listen(PORT, () => console.log("http://127.0.0.1:" + PORT));
 
 /* ------------------------------------------------------- */
 // Syncronization (must be in commentLine):
-// require('./src/helpers/sync')()
+require('./src/helpers/sync')()
