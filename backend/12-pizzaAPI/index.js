@@ -53,8 +53,16 @@ app.all('/', (req,res)=>{
         user:req.user    
     })
 })
+// auth
+app.use('/auth', require('./src/routes/auth'))
 // User
 app.use('/users', require('./src/routes/user'))
+// Pizza
+app.use('/pizzas', require('./src/routes/pizza'))
+// Toppings
+app.use('/toppings', require('./src/routes/topping'))
+// Orders
+app.use('/orders', require('./src/routes/order'))
 
 
 
