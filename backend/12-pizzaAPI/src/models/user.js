@@ -4,6 +4,13 @@
 ------------------------------------------------------- */
 const { mongoose } = require("../configs/dbConnection");
 /* ------------------------------------------------------- */
+// {
+//   "username": "test",
+//   "password": "1234",
+//   "email": "test@test.com",
+//   "isAdmin": "true"
+// }
+/* ------------------------------------------------------- */
 const passwordEncrypt = require("../helpers/passwordEncrypt");
 
 const UserSchema = new mongoose.Schema(

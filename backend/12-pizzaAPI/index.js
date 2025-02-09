@@ -33,6 +33,10 @@ dbConnection()
 //! Middlewares:
 // Accept JSON:
 app.use(express.json())
+
+// accessTokenControl
+
+app.use(require('./src/middlewares/authentication'))
 // RunLogger
 app.use(require('./src/middlewares/logger'))
 
@@ -50,7 +54,7 @@ app.all('/', (req,res)=>{
         error:false,
         message:"Welcome to Pizza Api",
         isLogin:req.isLogin,
-        user:req.user    
+        user:req.user
     })
 })
 // auth

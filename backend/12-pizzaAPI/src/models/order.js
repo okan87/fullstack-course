@@ -19,16 +19,18 @@ const OrderSchema = new mongoose.Schema(
     size: {
       type: String,
       required: true,
-      enum:['Small', 'Medium', 'Large', 'Xlarge']
+      enum:['small', 'medium', 'large', 'xlarge']
     },
     quantity: {
         //push,pull
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Topping'
+
+        type: Number,
+        default: 1
       },
     price: {
         type: Number,
-        required: true
+        default:0
+        // required: true
       },
     totalPrice: {
         type:Number
