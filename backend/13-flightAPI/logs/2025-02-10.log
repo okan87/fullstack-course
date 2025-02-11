@@ -21,3 +21,4 @@
 ::ffff:127.0.0.1 - - [10/Feb/2025:21:14:17 +0000] "POST /passengers HTTP/1.1" 201 261 "-" "Thunder Client (https://www.thunderclient.com)"
 ::ffff:127.0.0.1 - - [10/Feb/2025:21:14:32 +0000] "POST /passengers HTTP/1.1" 201 260 "-" "Thunder Client (https://www.thunderclient.com)"
 ::ffff:127.0.0.1 - - [10/Feb/2025:21:16:33 +0000] "GET /auth/login HTTP/1.1" 404 149 "-" "Thunder Client (https://www.thunderclient.com)"
+::ffff:127.0.0.1 - - [10/Feb/2025:22:44:51 +0000] "POST /auth/login HTTP/1.1" 200 839 "-" "Thunder Client (https://www.thunderclient.com)"
