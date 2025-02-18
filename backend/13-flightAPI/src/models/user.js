@@ -5,12 +5,28 @@
 const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- *
 {
-    "username": "test",
-    "password": "1234",
-    "email": "test@site.com",
-    "isActive": true,
-    "isStaff": false,
-    "isAdmin": false,
+  "username": "test",
+  "password": "test",
+  "email": "test@site.com",
+  "isActive": true,
+  "isStaff": false,
+  "isAdmin": false
+}
+{
+  "username": "staff",
+  "password": "test",
+  "email": "staff@site.com",
+  "isActive": true,
+  "isStaff": true,
+  "isAdmin": false
+}
+{
+  "username": "admin",
+  "password": "test",
+  "email": "admin@site.com",
+  "isActive": true,
+  "isStaff": true,
+  "isAdmin": true
 }
 /* ------------------------------------------------------- */
 // User Model:
@@ -23,40 +39,44 @@ const UserSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: true,
-        unique: true,
+        unique: true
     },
 
     password: {
         type: String,
         trim: true,
         required: true,
-        set: (password) => passwordEncrypt(password)
+        // select: false,
+        set: (password) => passwordEncrypt(password),
     },
 
     email: {
         type: String,
         trim: true,
-        required: [true, 'Email field must be required'],
-        unique: [true, 'There is this email. Email field must be unique'],
+        required: [true, 'Email field must be required.'],
+        unique: [true, 'There is this email. Email field must be unique.'],
         validate: [
-            (email) => email.includes('@') && email.includes('.'),
+            (email) =>  {
+                const emailRegexCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                return emailRegexCheck.test(email)
+            },
             'Email type is not correct.'
         ]
     },
 
     isActive: {
         type: Boolean,
-        default: true,
+        default: true
     },
 
     isStaff: {
         type: Boolean,
-        default: false,
+        default: false
     },
 
     isAdmin: {
         type: Boolean,
-        default: false,
+        default: false
     },
 
 }, { collection: 'users', timestamps: true })
