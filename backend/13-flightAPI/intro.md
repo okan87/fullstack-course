@@ -6,7 +6,7 @@
 
 ### Installation:
 ```sh
-    $ 
+    $ mkdir logs
     $ cp .env-sample .env
     $ npm i
 ```
@@ -14,7 +14,7 @@
 ### Folder/File Structure:
 
 ```
-    .envmkdir logs
+    .env
     .gitignore
     index.js
     package.json

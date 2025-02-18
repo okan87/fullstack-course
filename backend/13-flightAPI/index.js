@@ -49,8 +49,11 @@ app.all('/', (req, res) => {
         user: req.user
     })
 })
-// URL: /
-app.use('/', require('./src/routes/index'))
+
+// auth:
+app.use('/auth', require('./src/routes/auth'))
+// document:
+app.use('/documents', require('./src/routes/document'))
 
 /* ------------------------------------------------------- */
 
