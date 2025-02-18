@@ -81,7 +81,7 @@ module.exports={
                 }
             }
         */
-       const data = await res.updateOne({_id:req.params.id},req.body, {runValidators:true})
+       const data = await res.updateOne({_id:req.params.id},req.body)
 
        res.status(202).send({
         error:false,
