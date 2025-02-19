@@ -7,7 +7,7 @@ const { mongoose } = require('../configs/dbConnection')
 {
   "username": "test",
   "password": "test",
-  "email": "test@site.com",
+  "email": "test@test.com",
   "isActive": true,
   "isStaff": false,
   "isAdmin": false
@@ -15,7 +15,7 @@ const { mongoose } = require('../configs/dbConnection')
 {
   "username": "staff",
   "password": "test",
-  "email": "staff@site.com",
+  "email": "staff@test.com",
   "isActive": true,
   "isStaff": true,
   "isAdmin": false
@@ -23,7 +23,7 @@ const { mongoose } = require('../configs/dbConnection')
 {
   "username": "admin",
   "password": "test",
-  "email": "admin@site.com",
+  "email": "admin@test.com",
   "isActive": true,
   "isStaff": true,
   "isAdmin": true

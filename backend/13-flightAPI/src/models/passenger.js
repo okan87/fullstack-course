@@ -6,9 +6,9 @@ const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- *
 {
     "firstName": "FirstName 1",
-    "lastName": "LastName",
+    "lastName": "LastName ",
     "gender": "F",
-    "email": "test1@site.com",
+    "email": "passenger@test.com",
     "createdId": "65317b1c29b1267920ddf30d"
 }
 /* ------------------------------------------------------- */
