@@ -62,4 +62,18 @@ const FlightSchema = new mongoose.Schema({
 
 },
 { collection: 'flights', timestamps: true })
+
+/* --------------------------------------------------------- */
+// Mongoose Schema Middleware:
+// https://mongoose.com/docs/midlleware.html
+const dateToLocaleString = require('../helpers/dateToLocaleString')
+FlightSchema.pre('init', function(document){
+    // data.departureDateStr = data.departureDate.toLocaleString('nl-nl', {dateStyle:'full', timeStyle:'medium'})
+    // data.arrivalDateStr = data.arrivalDate.toLocaleString('nl-nl', {dateStyle:'full', timeStyle:'medium'})
+    document.departureDateStr = dateToLocaleString(document.departureDate)     
+    document.arrivalDateStr = dateToLocaleString(document.arrivalDate) 
+    document.__v = undefined    
+})
+
+/* --------------------------------------------------------- */
 module.exports = mongoose.model('Flight', FlightSchema)
