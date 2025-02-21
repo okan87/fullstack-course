@@ -6,6 +6,12 @@
 
 --- 
 
+```js
+  $ cp .env-sample .env
+  $ mkdir logs
+  $ npm i
+```
+
 ### Rent A Car Project 
 
 - Customers;

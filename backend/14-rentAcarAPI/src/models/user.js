@@ -34,25 +34,16 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     password: {
-      type: String,
-      trim: true,
-      required: true,
-      // select: false,
-      set: (password) => passwordEncrypt(password),
+        type: String,
+        trim: true,
+        required: true,
     },
+
     email: {
-      type: String,
-      trim: true,
-      required: [true, "Email field must be required."],
-      unique: [true, "There is this email. Email field must be unique."],
-      validate: [
-        (email) => {
-          const emailRegexCheck =
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-          return emailRegexCheck.test(email);
-        },
-        "Email type is not correct.",
-      ],
+        type: String,
+        trim: true,
+        required: true,
+        unique: true
     },
     firstName: {
       type: String,
@@ -75,4 +66,36 @@ const UserSchema = new mongoose.Schema(
   },
   { collection: "users", timestamps: true }
 );
-module.exports = mongoose.model("User", UserSchema);
+UserSchema.pre(['save', 'updateOne'], function(next) {
+
+    // get data from "this" when create;
+    // if process is updateOne, data will receive in "this._update"
+    const data = this?._update || this
+
+    // const emailRegExp = new RegExp("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
+    // const isEmailValidated = emailRegExp.test(data.email)
+    // const isEmailValidated = RegExp("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$").test(data.email)
+    const isEmailValidated = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email) // test from "data".
+
+    if (isEmailValidated) {
+
+        const isPasswordValidated = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{8,}$/.test(data.password)
+    
+        if (isPasswordValidated) {
+            
+            this.password = data.password = passwordEncrypt(data.password)
+
+            this._update = data // updateOne will wait data from "this._update".
+            next() // Allow to save.
+        } else {
+            
+            next( new Error('Password not validated.') )
+        }
+    } else {
+        
+        next( new Error('Email not validated.') )
+    }
+})
+
+/* ------------------------------------------------------- */
+module.exports = mongoose.model('User', UserSchema)
