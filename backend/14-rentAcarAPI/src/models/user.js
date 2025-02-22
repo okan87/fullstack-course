@@ -6,7 +6,7 @@ const { mongoose } = require("../configs/dbConnection");
 /* ------------------------------------------------------- *
 {
     "username": "admin",
-    "password": "1234",
+    "password": "Test*123456789",
     "email": "admin@site.com",
     "firstName": "admin",
     "lastName": "admin",
@@ -15,7 +15,7 @@ const { mongoose } = require("../configs/dbConnection");
 }
 {
     "username": "test",
-    "password": "1234",
+    "password": "Test*123456789",,
     "email": "test@site.com",
     "firstName": "test",
     "lastName": "test",
@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    lasttName: {
+    lastName: {
       type: String,
       trim: true,
       required: true,

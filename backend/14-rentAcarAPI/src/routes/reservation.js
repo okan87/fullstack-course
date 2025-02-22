@@ -4,4 +4,17 @@
 ------------------------------------------------------- */
 const router = require('express').Router()
 /* ------------------------------------------------------- */
-// routes/reservation:
+// routes/user:
+const Reservation = require('../controllers/reservation')
+router.route('/')
+.get(Reservation.list)
+.post(Reservation.create)
+
+router.route('/:id')
+.get(Reservation.read)
+.put(Reservation.update)
+.patch(Reservation.update)
+.delete(Reservation.delete)
+
+/* ------------------------------------------------------- */
+module.exports = router
