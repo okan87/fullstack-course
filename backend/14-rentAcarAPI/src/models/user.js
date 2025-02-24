@@ -15,7 +15,7 @@ const { mongoose } = require("../configs/dbConnection");
 }
 {
     "username": "test",
-    "password": "Test*123456789",,
+    "password": "Test*123456789",
     "email": "test@site.com",
     "firstName": "test",
     "lastName": "test",

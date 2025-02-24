@@ -12,4 +12,4 @@ const { pbkdf2Sync } = require('node:crypto'),
 
 module.exports = function (password) {
     return pbkdf2Sync(password, keyCode, loopCount, charCount, encType).toString('hex')
-}
+} 
