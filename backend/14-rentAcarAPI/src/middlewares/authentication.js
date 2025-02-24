@@ -1,24 +1,33 @@
-"use strict"
+"use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
+// $ npm i jsonwebtoken
 // app.use(authentication):
 
-const User = require('../models/user')
-const Token = require('../models/token')
-
-module.exports = async (req, res, next) => {
-
-    // Authorization: Token ...
-    // Authorization: ApiKey ...
-    // Authorization: X-API-KEY ...
-    // Authorization: x-auth-token ...
-    // Authorization: Bearer ...
-    const auth = req.headers?.authorization || null // Token ...tokenKey...
-    const tokenKey = auth ? auth.split(' ') : null // ['Token', '...tokenKey...']
-    if (tokenKey && tokenKey[0] == 'Token') {
-        const tokenData = await Token.findOne({ token: tokenKey[1] })
-        if (tokenData) req.user = await User.findOne({ _id: tokenData.userId })
+const jwt = require("jsonwebtoken");
+module.exports = (req, res, next) => {
+  const auth = req.headers?.authorization;
+  const accessToken = auth ? auth.split(" ")[1] : null;
+  req.isLogin = false;
+  req.user = null;
+  if (!accessToken) {
+    return res
+      .status(401)
+      .send({ error: true, message: "Access token is missing" });
+  }
+  jwt.verify(accessToken, process.env.ACCESS_KEY, function (err, userData) {
+    if (err) {
+      return res.status(401).send({ error: true, message: "Invalid token" });
     }
-    next()
-}
+    if (userData && userData.isActive) {
+      req.isLogin = true;
+      req.user = userData;
+    } else {
+      return res
+        .status(401)
+        .send({ error: true, message: "User is not active" });
+    }
+    next();
+  });
+};

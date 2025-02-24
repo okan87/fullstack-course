@@ -3,6 +3,7 @@
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 const router = require('express').Router()
+const authentication = require('../middlewares/authentication')
 /* ------------------------------------------------------- */
 // routes/:
 
@@ -11,15 +12,13 @@ const router = require('express').Router()
 // auth:
 router.use('/auth', require('./auth'))
 // user:
-router.use('/users', require('./user'))
-// token:
-router.use('/tokens', require('./token'))
+router.use('/users', authentication, require('./user'))
 // car:
-router.use('/cars', require('./car'))
+router.use('/cars', authentication, require('./car'))
 // reservation:
-router.use('/reservations', require('./reservation'))
+router.use('/reservations', authentication, require('./reservation'))
 // document:
-router.use('/documents', require('./document'))
+router.use('/documents', authentication, require('./document'))
 
 /* ------------------------------------------------------- */
 module.exports = router
