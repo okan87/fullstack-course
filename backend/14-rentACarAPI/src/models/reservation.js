@@ -44,6 +44,17 @@ const ReservationSchema = new mongoose.Schema({
     },
 
 }, { collection: 'reservations', timestamps: true })
+const dateToLocaleString = require('../helpers/dateToLocaleString')
+
+ReservationSchema.pre('init', function(document) {
+    // https://www.w3schools.com/jsref/jsref_tolocalestring.asp
+    // document.departureDateStr = document.departureDate.toLocaleString('tr-tr', { dateStyle: 'full', timeStyle: 'medium' })
+    // document.arrivalDateStr = document.arrivalDate.toLocaleString('tr-tr', { dateStyle: 'full', timeStyle: 'medium' })
+    document.startDateStr = dateToLocaleString(document.startDate)
+    document.endDateStr = dateToLocaleString(document.endDate)
+    document.__v = undefined
+    
+})
 
 /* ------------------------------------------------------- */
 module.exports = mongoose.model('Reservation', ReservationSchema)

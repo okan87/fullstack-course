@@ -5,11 +5,12 @@
 const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/user:
-
+const {isAdmin} = require('../middlewares/permissions')
 const User = require('../controllers/user')
 
-// URL: /users
 
+// URL: /users
+router.use(isAdmin)
 router.route('/')
     .get(User.list)
     .post(User.create)

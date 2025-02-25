@@ -6,10 +6,11 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/Car:
 
+const {isAdmin} = require('../middlewares/permissions')
 const Car = require('../controllers/car')
 
 // URL: /cars
-
+router.use(isAdmin)
 router.route('/')
     .get(Car.list)
     .post(Car.create)

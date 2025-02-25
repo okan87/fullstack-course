@@ -5,11 +5,10 @@
 const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/Reservation:
-
+const {isAdmin} = require('../middlewares/permissions')
 const Reservation = require('../controllers/reservation')
-
 // URL: /reservations
-
+router.use(isAdmin)
 router.route('/')
     .get(Reservation.list)
     .post(Reservation.create)
