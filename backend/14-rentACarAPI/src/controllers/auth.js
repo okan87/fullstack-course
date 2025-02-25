@@ -1,18 +1,17 @@
-"use strict"
+"use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // Auth Controller:
 
-const jwt = require('jsonwebtoken')
-const setToken = require('../helpers/setToken')
+const jwt = require("jsonwebtoken");
+const setToken = require("../helpers/setToken");
 
-const User = require('../models/user')
+const User = require("../models/user");
 
 module.exports = {
-
-    login: async (req, res) => {
-        /*
+  login: async (req, res) => {
+    /*
             #swagger.tags = ['Authentication']
             #swagger.summary = 'Login'
             #swagger.description = 'Login with username and password'
@@ -28,40 +27,33 @@ module.exports = {
             }
         */
 
-        const { username, password } = req.body
+    const { username, password } = req.body;
 
-        if (username && password) {
+    if (username && password) {
+      const user = await User.findOne({ username, password });
 
-            const user = await User.findOne({ username, password })
-
-            if (user) {
-
-                if (user.isActive) {
-
-                    res.send({
-                        error: false,
-                        token: setToken(user)
-                    })
-
-                } else {
-
-                    res.errorStatusCode = 401
-                    throw new Error('This account is not active.')
-                }
-            } else {
-
-                res.errorStatusCode = 401
-                throw new Error('Wrong username or password.')
-            }
+      if (user) {
+        if (user.isActive) {
+          res.send({
+            error: false,
+            token: setToken(user),
+          });
         } else {
-
-            res.errorStatusCode = 401
-            throw new Error('Please enter username and password.')
+          res.errorStatusCode = 401;
+          throw new Error("This account is not active.");
         }
-    },
+      } else {
+        res.errorStatusCode = 401;
+        throw new Error("Wrong username or password.");
+      }
+    } else {
+      res.errorStatusCode = 401;
+      throw new Error("Please enter username and password.");
+    }
+  },
 
-    refresh: async (req, res) => {
-        /*
+  refresh: async (req, res) => {
+    /*
             #swagger.tags = ['Authentication']
             #swagger.summary = 'Token Refresh'
             #swagger.description = 'Refresh accessToken with refreshToken'
@@ -76,69 +68,54 @@ module.exports = {
             }
         */
 
-        const refreshToken = req.body?.token?.refresh
+    const refreshToken = req.body?.token?.refresh;
 
-        if (refreshToken) {
+    if (!refreshToken) {
+      res.errorStatusCode = 401;
+      throw new Error("Please enter token.refresh");
+    }
 
-            jwt.verify(refreshToken, process.env.REFRESH_KEY, async function (err, userData) {
+    try {
+      const decoded = jwt.verify(refreshToken, process.env.REFRESH_KEY);
+      const user = await User.findById(decoded._id);
 
-                if (err) {
+      if (!user) {
+        res.errorStatusCode = 401;
+        throw new Error("Invalid refresh token");
+      }
 
-                    res.errorStatusCode = 401
-                    throw err
-                } else {
+      const newAccessToken = jwt.sign(
+        { _id: user._id },
+        process.env.ACCESS_KEY,
+        { expiresIn: "30m" }
+      );
+      const newRefreshToken = jwt.sign(
+        { _id: user._id },
+        process.env.REFRESH_KEY,
+        { expiresIn: "7d" }
+      );
 
-                    const { _id, password } = userData
+      // Refresh token'ı veritabanında güncelleyin
+      user.refreshToken = newRefreshToken;
+      await user.save();
 
-                    if (_id && password) {
-
-                        const user = await User.findOne({ _id })
-
-                        if (user && user.password == password) {
-
-                            if (user.isActive) {
-
-                                res.send({
-                                    error: false,
-                                    token: setToken(user, true)
-                                })
-
-                            } else {
-
-                                res.errorStatusCode = 401
-                                throw new Error('This account is not active.')
-                            }
-                        } else {
-
-                            res.errorStatusCode = 401
-                            throw new Error('Wrong id or password.')
-                        }
-                    } else {
-
-                        res.errorStatusCode = 401
-                        throw new Error('Please enter id and password.')
-                    }
-                }
-            })
-
-        } else {
-            res.errorStatusCode = 401
-            throw new Error('Please enter token.refresh')
-        }
-    },
-
-    logout: async (req, res) => {
-        /*
+      res.send({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+    } catch (err) {
+      res.errorStatusCode = 401;
+      throw new Error("Invalid or expired refresh token");
+    }
+  },
+  logout: async (req, res) => {
+    /*
             #swagger.tags = ['Authentication']
             #swagger.summary = 'Logout'
             #swagger.description = 'No need any doing for logout. You must deleted Bearer Token from your browser.'
         */
 
-        res.send({
-            error: false,
-            message: 'No need any doing for logout. You must deleted Bearer Token from your browser.'
-        })
-
-    },
-
-}
+    res.send({
+      error: false,
+      message:
+        "No need any doing for logout. You must deleted Bearer Token from your browser.",
+    });
+  },
+};
