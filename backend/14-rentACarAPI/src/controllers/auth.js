@@ -54,57 +54,44 @@ module.exports = {
 
   refresh: async (req, res) => {
     /*
-            #swagger.tags = ['Authentication']
-            #swagger.summary = 'Token Refresh'
-            #swagger.description = 'Refresh accessToken with refreshToken'
-            #swagger.parameters['body'] = {
-                in: 'body',
-                required: true,
-                schema: {
-                    token: {
-                        refresh: '...refreshToken...'
-                    }
+        #swagger.tags = ['Authentication']
+        #swagger.summary = 'Token Refresh'
+        #swagger.description = 'Refresh accessToken with refreshToken'
+        #swagger.parameters['body'] = {
+            in: 'body',
+            required: true,
+            schema: {
+                token: {
+                    refresh: '...refreshToken...'
                 }
             }
-        */
+        }
+    */
 
-    const refreshToken = req.body?.token?.refresh;
+    const refreshToken = req.body?.token?.refresh
 
     if (!refreshToken) {
-      res.errorStatusCode = 401;
-      throw new Error("Please enter token.refresh");
+        res.errorStatusCode = 401
+        throw new Error('Please enter token.refresh')
     }
 
-    try {
-      const decoded = jwt.verify(refreshToken, process.env.REFRESH_KEY);
-      const user = await User.findById(decoded._id);
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_KEY);
+    const user = await User.findById(decoded._id);
 
-      if (!user) {
-        res.errorStatusCode = 401;
-        throw new Error("Invalid refresh token");
-      }
-
-      const newAccessToken = jwt.sign(
-        { _id: user._id },
-        process.env.ACCESS_KEY,
-        { expiresIn: "30m" }
-      );
-      const newRefreshToken = jwt.sign(
-        { _id: user._id },
-        process.env.REFRESH_KEY,
-        { expiresIn: "7d" }
-      );
-
-      // Refresh token'ı veritabanında güncelleyin
-      user.refreshToken = newRefreshToken;
-      await user.save();
-
-      res.send({ accessToken: newAccessToken, refreshToken: newRefreshToken });
-    } catch (err) {
-      res.errorStatusCode = 401;
-      throw new Error("Invalid or expired refresh token");
+    if (!user) {
+        res.errorStatusCode = 401
+        throw new Error('Invalid refresh token');
     }
-  },
+
+    const newAccessToken = jwt.sign({ _id: user._id }, process.env.ACCESS_KEY, { expiresIn: '30m' });
+    const newRefreshToken = jwt.sign({ _id: user._id }, process.env.REFRESH_KEY, { expiresIn: '7d' });
+
+    // Refresh token'ı veritabanında güncelleyin
+    user.refreshToken = newRefreshToken;
+    await user.save();
+
+    res.send({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+},
   logout: async (req, res) => {
     /*
             #swagger.tags = ['Authentication']
