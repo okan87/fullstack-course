@@ -42,7 +42,7 @@ module.exports = {
                 required: true,
                 schema: {
                     "username": "test",
-                    "password": "1234",
+                    "password": "Test*123456789",
                     "email": "test@site.com",
                     "isActive": true,
                     "isStaff": false,
@@ -86,7 +86,7 @@ module.exports = {
                 required: true,
                 schema: {
                     "username": "test",
-                    "password": "1234",
+                    "password": "Test*123456789",
                     "email": "test@site.com",
                     "isActive": true,
                     "isStaff": false,
