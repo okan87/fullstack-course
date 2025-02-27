@@ -4,12 +4,15 @@
 ------------------------------------------------------- */
 // passwordEncrypt(password:string):
 
-const { pbkdf2Sync } = require('node:crypto'),
-    keyCode = process.env.SECRET_KEY,
-    loopCount = 1000,
-    charCount = 32,
-    encType = 'sha512';
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
-module.exports = function (password) {
-    return pbkdf2Sync(password, keyCode, loopCount, charCount, encType).toString('hex')
+module.exports = async function (password, next) {
+    try {
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        return hashedPassword;
+    } catch (err) {
+        next(err); // Hata yakalanır ve errorHandler'a iletilir
+    }
 }

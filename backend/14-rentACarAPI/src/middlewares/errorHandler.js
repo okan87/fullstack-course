@@ -5,6 +5,7 @@
 // app.use(errorHandler):
 
 module.exports = (err, req, res, next) => {
+    console.error(err); // Hata loglama
 
     return res.status(res?.errorStatusCode || 500).send({
         error: true,
