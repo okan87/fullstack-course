@@ -2,6 +2,11 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-const router = require('express').Router()
+const { mongoose } = require('../configs/dbConnection')
+/* ------------------------------------------------------- *
+{
+  "userId": "65343222b67e9681f937f001",
+  "token": "...tokenKey..."
+}
 /* ------------------------------------------------------- */
-// routes/reservation:
+// Token Model:

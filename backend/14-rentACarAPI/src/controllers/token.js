@@ -2,4 +2,4 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-// Auth Controller:
+// Token Controller:
