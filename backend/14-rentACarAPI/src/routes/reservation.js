@@ -4,21 +4,21 @@
 ------------------------------------------------------- */
 const router = require('express').Router()
 /* ------------------------------------------------------- */
-// routes/Reservation:
+// routes/reservation:
+const permissions = require('../middlewares/permissions')
+const reservation = require('../controllers/reservation')
 
-const Reservation = require('../controllers/reservation')
-
-// URL: /Reservations
+// URL: /reservations
 
 router.route('/')
-    .get(Reservation.list)
-    .post(Reservation.create)
+    .get(permissions.isLogin,reservation.list)
+    .post(permissions.isLogin,reservation.create)
 
 router.route('/:id')
-    .get(Reservation.read)
-    .put(Reservation.update)
-    .patch(Reservation.update)
-    .delete(Reservation.delete)
+    .get(permissions.isLogin,reservation.read)
+    .put(permissions.isAdmin,reservation.update)
+    .patch(permissions.isAdmin,reservation.update)
+    .delete(permissions.isAdmin, reservation.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router
