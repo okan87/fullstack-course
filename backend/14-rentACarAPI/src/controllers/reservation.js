@@ -22,7 +22,13 @@ module.exports = {
             `
         */
         try {
-            const data = await res.getModelList(Reservation);
+            // Filters:
+        let filters = {}
+        // Only self records. except admin:
+        if (!req?.user.isAdmin) filters.userId = req.user._id
+
+        const data = await res.getModelList(Reservation, filters, ['userId', 'carId'])
+
             res.status(200).send({
                 error: false,
                 details: await res.getModelListDetails(Reservation),
@@ -49,6 +55,7 @@ module.exports = {
             }
         */
         try {
+            req.body.userId = req?.user._id;
             const data = await Reservation.create(req.body);
             res.status(201).send({
                 error: false,
@@ -65,7 +72,14 @@ module.exports = {
             #swagger.summary = "Get Single Reservation"
         */
         try {
-            const data = await Reservation.findOne({ _id: req.params.id });
+            // Filters:
+        let filters = {}
+        // Only self records. except admin:
+        if (!req?.user.isAdmin) filters.userId = req.user._id
+
+ 
+
+            const data = await Reservation.findOne({ _id: req.params.id, ...filters }).populate(['userId', 'carId']);
             res.status(200).send({
                 error: false,
                 data

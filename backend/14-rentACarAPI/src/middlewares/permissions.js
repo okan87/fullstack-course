@@ -10,7 +10,7 @@ module.exports = {
             next()
         }else{
             res.errorStatusCode=403
-            throw new Error("NoPermission: You must be login.")
+            next(new Error("NoPermission: You must be logged in."))
              
         }
 
@@ -20,7 +20,7 @@ module.exports = {
             next()
         }else{
             errorStatusCode=403
-            throw new Error('NoPermission: You must be login and to be admin.')
+            next(new Error("NoPermission: You must be logged in and an admin."));
         }
     },
 

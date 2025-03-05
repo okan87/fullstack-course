@@ -50,8 +50,8 @@ app.all('/', (req, res) => {
             swagger: '/documents/swagger',
             redoc: '/documents/redoc',
             json: '/documents/json',
-            user: req.user
         },
+        user: req.user
         
     })
 })

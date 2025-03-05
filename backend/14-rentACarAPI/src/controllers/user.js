@@ -1,15 +1,14 @@
-"use strict"
+"use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // User Controller:
 
-const User = require('../models/user');
+const User = require("../models/user");
 
 module.exports = {
-
-    list: async (req, res, next) => {
-        /*
+  list: async (req, res, next) => {
+    /*
             #swagger.tags = ["Users"]
             #swagger.summary = "List Users"
             #swagger.description = `
@@ -21,20 +20,20 @@ module.exports = {
                 </ul>
             `
         */
-        try {
-            const data = await res.getModelList(User);
-            res.status(200).send({
-                error: false,
-                details: await res.getModelListDetails(User),
-                data
-            });
-        } catch (err) {
-            next(err);
-        }
-    },
+    try {
+      const data = await res.getModelList(User);
+      res.status(200).send({
+        error: false,
+        details: await res.getModelListDetails(User),
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 
-    create: async (req, res, next) => {
-        /*
+  create: async (req, res, next) => {
+    /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Create User"
             #swagger.parameters['body'] = {
@@ -50,37 +49,39 @@ module.exports = {
                 }
             }
         */
-        try {
-            const data = await User.create(req.body);
-            res.status(201).send({
-                error: false,
-                data
-            });
-        } catch (err) {
-            next(err);
-        }
-    },
+    try {
+      // Disallow set admin:
+      req.body.isAdmin = false;
+      const data = await User.create(req.body);
+      res.status(201).send({
+        error: false,
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 
-    read: async (req, res, next) => {
-        /*
+  read: async (req, res, next) => {
+    /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Get Single User"
         */
-       try {
-            let filters = {}
-            if(!req.user?.isAdmin) filters = {_id:req.user._id}
-            const data = await User.findOne({ _id: req.params.id, ...filters });
-            res.status(200).send({
-                error: false,
-                data
-            });
-        } catch (err) {
-            next(err);
-        }
-    },
+    try {
+      let filters = {};
+      if (!req.user?.isAdmin) filters = { _id: req.user._id };
+      const data = await User.findOne({ _id: req.params.id, ...filters });
+      res.status(200).send({
+        error: false,
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 
-    update: async (req, res, next) => {
-        /*
+  update: async (req, res, next) => {
+    /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Update User"
             #swagger.parameters['body'] = {
@@ -96,36 +97,38 @@ module.exports = {
                 }
             }
         */
-        try {
-            let filters = {}
-            if(!req.user?.isAdmin) {
-                filters = {_id:req.user._id}
-                req.body.isAdmin = false
-            }
-            const data = await User.updateOne({ _id: req.params.id }, req.body, { runValidators: true });
-            res.status(202).send({
-                error: false,
-                data,
-                new: await User.findOne({ _id: req.params.id })
-            });
-        } catch (err) {
-            next(err);
-        }
-    },
+    try {
+      let filters = {};
+      if (!req.user?.isAdmin) {
+        filters = { _id: req.user._id };
+        req.body.isAdmin = false;
+      }
+      const data = await User.updateOne({ _id: req.params.id }, req.body, {
+        runValidators: true,
+      });
+      res.status(202).send({
+        error: false,
+        data,
+        new: await User.findOne({ _id: req.params.id }),
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 
-    delete: async (req, res, next) => {
-        /*
+  delete: async (req, res, next) => {
+    /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Delete User"
         */
-        try {
-            const data = await User.deleteOne({ _id: req.params.id });
-            res.status(data.deletedCount ? 204 : 404).send({
-                error: !data.deletedCount,
-                data
-            });
-        } catch (err) {
-            next(err);
-        }
-    },
-}
+    try {
+      const data = await User.deleteOne({ _id: req.params.id });
+      res.status(data.deletedCount ? 204 : 404).send({
+        error: !data.deletedCount,
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+};
